@@ -36,7 +36,7 @@ Since this repository is a container for the submodules, you'll need to clone it
 
 Use the following command to clone this repository and initialize all four submodules simultaneously:
 
-    git clone --recursive <repository-url> f1_analysis
+    git clone --recursive git@github.com:Kuriiios/f1_analysis.git f1_analysis
     cd f1_analysis
 
 ### Setup and Workflow
