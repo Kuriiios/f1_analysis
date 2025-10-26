@@ -1,75 +1,89 @@
-🏎️ F1 Analysis Ecosystem: Master Repository
+# 🏎️ F1 Analysis — Full-Stack Data Ecosystem
 
-This master repository serves as the central hub for the F1 Analysis Ecosystem, a comprehensive suite of projects dedicated to processing, visualizing, and reporting on Formula 1 race data, with a strong focus on the 2025 season.
+This repository serves as the central hub and monorepo for the entire F1 Analysis project suite. It integrates four specialized submodules that collectively form a complete, end-to-end data pipeline: from raw data ingestion and storage to advanced analysis, visualization, and web presentation.
 
-The ecosystem is logically separated into three independent but connected sub-projects(to do), each focusing on a different part of the data workflow: Backend API, Interactive Frontend Dashboard(Prototype), and Automated Report Generation.
+The project is designed to provide comprehensive, high-resolution analytical insights into Formula 1 sessions, focusing on the 2025 season and powered primarily by the FastF1 library and a PostgreSQL backend.
 
-🧩 Project Structure and Component Repositories
+## 🚨 PROJECT STATUS: MULTI-MODULE ARCHITECTURE — ACTIVE DEVELOPMENT 🚧
 
-This project is composed of three distinct repositories:
-Component Repository	Technology	Description	Status
-[f1-data-api	Java / Spring Boot	](https://github.com/Kuriiios/f1_analysis_website) Backend & API: Processes raw F1 data, runs core pace/strategy logic, and serves structured data via REST endpoints.	🚧 Under Development
-[f1-analysis-dashboard	Python / Streamlit	](https://github.com/Kuriiios/f1_analysis_dashboard) Frontend Dashboard: An interactive web application for real-time and post-session visual analysis and performance comparison.	🚨 Prototype & Active Development
-[f1-report-suite	Python / FastF1 / python-pptx	](https://github.com/Kuriiios/f1_analysis_visualization) Report Generator: Automated system for creating professional-grade session reports and visual cards (.pptx, .pdf, .jpeg).	🚨 Multi-Module Prototype
+The overall architecture is validated, with core functionality established across all four submodules. Development efforts are currently focused on refining data processing logic and completing the API/Frontend integration.
 
-1. 🏁 F1 Analysis Race Data Dashboard (Java/Spring Boot) - The Core Logic
+## 🧩 Architectural Overview: The Four Pillars
 
-This repository hosts the backend and API core, built using Java and Spring Boot 3+. It is the source of truth for all structured F1 session data and analytical results.
+The F1 Analysis Suite is organized into four distinct submodules, each handling a critical step in the data lifecycle.
+|Repository | Role in the Pipeline | Core Technology | Description |
+| --- | --- | --- | --- |
+| [f1_analysis_injestion](https://github.com/Kuriiios/f1_analysis_injestion/) |    Data Source & Storage	|    Python, PostgreSQL    |    Feeds the system. Handles fetching raw F1 data and populating the central PostgreSQL database.|
+| [f1_analysis_website](https://github.com/Kuriiios/f1_analysis_website/) |    Backend & API    |    Java (Spring Boot)	|    Serves the data. Provides structured, performant RESTful APIs to access the processed F1 data from the database.|
+| [f1_analysis_dashboard](https://github.com/Kuriiios/f1_analysis_dashboard/) |    Interactive Visualization    |    Python (Streamlit)	|    Explores the data. Provides a web-based, real-time (or post-session) dashboard for interactive race and strategy analysis.|
+| [f1_analysis_visualization](https://github.com/Kuriiios/f1_analysis_visualization/) |    Automated Reporting	|    Python (FastF1, python-pptx)    |	Generates reports. Automatically produces high-resolution, branded JPEG cards and reports for every session type.|
 
-Key Functionality
+## 🚀 Getting Started
 
-    Data Model / Entities: Comprehensive entity modeling for F1 data, including Session Metadata, Driver, Team, Timing & Lap Data, and Track & External Factors.
+Since this repository is a container for the submodules, you'll need to clone it recursively to pull all project components.
 
-    Data Processing Services: Implements the critical business logic:
+### Prerequisites
 
-        Pace Calculation: Normalizes lap times to compare driver performance accurately.
+    Git (with submodule support)
 
-        Qualifying Logic: Custom handling for Q1, Q2, and Q3 cut-off times.
+    Python ≥ 3.9 (for Ingestion, Dashboard, and Visualization modules)
 
-    API Exposure: Structured RESTful APIs expose processed data, ensuring the dashboard and report suite receive consistent, high-fidelity information.
+    Java ≥ 21 (for Website/API module)
 
-    Time Formatting: Utility classes ensure standard M:SS.mmm time formatting across all API responses.
+    PostgreSQL Database Instance
 
-2. 📊 F1 Analysis Race Data Dashboard (Streamlit) - The Visualization Layer
+### Cloning the Project
 
-This repository contains the interactive frontend dashboard, primarily built with Streamlit and the fastf1 library (currently acting as a standalone prototype, with future integration planned with the Java API).
+Use the following command to clone this repository and initialize all four submodules simultaneously:
 
-Core Features
+    git clone --recursive <repository-url> f1_analysis
+    cd f1_analysis
 
-    Multi-View Structure: Provides three main views:
+### Setup and Workflow
 
-        Main Dashboard View: Multi-panel snapshot for live monitoring (timing, track status, team radio).
+The general deployment workflow follows the data pipeline:
 
-        Race Recap View: Focuses on post-race analysis (pace comparison, lap time scatter plots, tyre strategy visualization).
+    Database Setup: Configure your PostgreSQL instance and set up the schema using scripts found in the f1_analysis_injestion module.
 
-        Home/Overview View: Project landing page.
+    Ingestion: Run the scripts in f1_analysis_injestion to populate the database with a desired season's data.
 
-    Data Styling: Advanced visual enhancements include team colors, highlighting personal bests (green) and overall session bests (purple), and applying correct tyre compound colors.
+    Backend: Start the Spring Boot application within f1_analysis_website to expose the data via REST APIs.
 
-    User Control: A dynamic sidebar allows users to select Year, Race, Session (including support for Sprint weekends), Team, and visualization parameters.
+    Frontend/Analysis: Run or deploy the f1_analysis_dashboard (Streamlit) or execute the generators in f1_analysis_visualization.
 
-3. 🏎️ F1 Report Suite — Automated Session & Season Analysis Generator - The Output Engine
+## 📂 Repository Structure (Submodules)
 
-This repository hosts the automated report generation suite, built in Python using FastF1 and python-pptx. It turns raw and processed data into professional, shareable media.
+Each component is managed as a Git Submodule, allowing for independent development while keeping the overall project unified.
+Plaintext
 
-Available Report Modules
+```text
+f1_analysis/
+│
+├── f1_analysis_injestion/    # Data Ingestion Pipeline (Python/PostgreSQL)
+├── f1_analysis_website/      # Backend & RESTful API (Java/Spring Boot)
+├── f1_analysis_dashboard/    # Interactive Data Dashboard (Python/Streamlit)
+├── f1_analysis_visualization/# Automated Report Generator (Python/pptx/jpeg)
+│
+└── README.md
+```
 
-The suite provides five distinct generators, each producing .pptx reports, .pdf documents, and .jpeg race cards:
-Module	Focus Area	Output Format
-Practice Report	Pace evolution, stint consistency, tyre degradation.	PPtx, PDF, JPEG
-Qualifying Report	Sector deltas, Q-session comparison, theoretical best laps.	PPtx, PDF, JPEG
-Race Report	Tyre strategy, pit stop breakdowns, lap charts.	PPtx, PDF, JPEG
-Quarter-Season Report	Multi-event averages, trends, cumulative scoring.	PPtx, PDF, JPEG
-Head-to-Head Report	Driver-vs-driver lap-by-lap performance.	PPtx, PDF, JPEG
+## 🔗 Detailed Component Documentation
 
-Key Workflow Highlights
+For specific instructions on running, configuring, or contributing to a module, please refer to its dedicated README:
 
-    Figure Generation: Uses Matplotlib for F1-style charts.
+* [f1_analysis_injestion](https://github.com/Kuriiios/f1_analysis_injestion/): Details on the data schema and how to load session data.
 
-    Report Assembly: python-pptx is used to dynamically build slides with F1-style typography, team branding, and metrics.
+* [f1_analysis_website](https://github.com/Kuriiios/f1_analysis_website/): API endpoints and service architecture details.
 
-    Conversion Pipeline: Utilizes LibreOffice and Poppler to convert reports from .pptx → .pdf → .jpeg, generating high-resolution outputs suitable for media.
+* [f1_analysis_dashboard](https://github.com/Kuriiios/f1_analysis_dashboard/): How to run the Streamlit app and features overview.
 
-👨‍💻 Author
+* [f1_analysis_visualization](https://github.com/Kuriiios/f1_analysis_visualization/): Report types, generation logic, and export formats.
 
-Cyril Leconte 📍 Créteil, France 📧 cyril.leconte@proton.me
+    
+## 👨‍💻 Author
+
+Cyril Leconte 📍 Créteil, France
+
+📧 cyril.leconte@proton.me
+
+🔗 [LinkedIn](https://www.linkedin.com/in/cyril-leconte/) | [Kaggle](https://www.kaggle.com/cyrilleconte)
