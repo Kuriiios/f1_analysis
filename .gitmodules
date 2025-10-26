@@ -1,0 +1,12 @@
+[submodule "f1_analysis_injestion"]
+	path = f1_analysis_injestion
+	url = https://github.com/Kuriiios/f1_analysis_injestion
+[submodule "f1_analysis_website"]
+	path = f1_analysis_website
+	url = https://github.com/Kuriiios/f1_analysis_website
+[submodule "f1_analysis_visualization"]
+	path = f1_analysis_visualization
+	url = https://github.com/Kuriiios/f1_analysis_visualization
+[submodule "f1_analysis_dashboard"]
+	path = f1_analysis_dashboard
+	url = https://github.com/Kuriiios/f1_analysis_dashboard
